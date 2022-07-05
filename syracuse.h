@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 
 #define ll long long
 #define ld long double
@@ -32,7 +33,9 @@
  */
 #define FOR(...) F_ORC(__VA_ARGS__)(__VA_ARGS__)
 
-#define MAX_VALUE 65536
+#ifndef MAX_VALUE
+#define MAX_VALUE 128
+#endif
 
 
 typedef struct Node Node;

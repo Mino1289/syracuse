@@ -1,14 +1,14 @@
 CC = gcc
-PYTHON = python
 CFLAGS = -Wall -Werror -Wextra -fpic -pedantic
 LIBSDIR = -L.
 INCLUDEDIR = -I.
 
 LIBCORENAME = syracuse
 
+MAX_VALUE ?= 128
 DEBUG ?= 0
 ifeq ($(DEBUG), 1)
-	CFLAGS += -ggdb -DDEBUG
+	CFLAGS += -ggdb -DDEBUG -DMAX_VALUE
 endif
 
 ifeq ($(OS), Windows_NT)
@@ -21,7 +21,6 @@ else
 	LIBSDIR += -L/usr/lib
 	INCLUDEDIR += -I/usr/include
 	CLEANCMD = rm -rf *.o *.so *.exe *.dll syracuse.py
-	PYTHON = python3
 endif
 
 LIBSOURCE = syracuse 
@@ -37,7 +36,6 @@ all: $(TARGET)
 
 run: $(TARGET)
 	$(EXPORT) $(TARGET)
-	$(PYTHON) $(LIBSOURCE:=.py)
 
 $(TARGET): $(EXESOURCEOFILE) $(LIBTARGET) 
 	$(CC) $(EXESOURCEOFILE) -l$(LIBCORENAME) $(LIBSDIR) -o $(TARGET) -lm

@@ -4,7 +4,6 @@ ull next(ull n) {
     if (n%2==0) {
         return n>>1;
     } 
-    // return 3*n+1;
     return (1+n)+(n<<1);
 }
 
@@ -25,15 +24,15 @@ ull* prev(ull n) {
     ull* res = malloc(sizeof(ull) * 2);
     ull tmp;
     if (n % 2 == 0) {
-        res[0] = n << 1;
+        res[0] = n<<1;
         tmp = (n-1)/3;
-        if (tmp*3+1 == n) {
+        if ((1+tmp)+(tmp<<1) == n) {
             res[1] = tmp;
         } else {
             res[1] = res[0];
         }
     } else {
-        res[0] = n << 1;
+        res[0] = n<<1;
         res[1] = res[0];
     }
     return res;

@@ -52,6 +52,6 @@ Mkfile.old
 dkms.conf
 
 syracuse.py
-syracuse.dot
-syracuse.dot.svg
+*.dot
+*.dot.svg
 
