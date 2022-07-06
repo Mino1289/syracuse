@@ -5,10 +5,9 @@ INCLUDEDIR = -I.
 
 LIBCORENAME = syracuse
 
-MAX_VALUE ?= 128
 DEBUG ?= 0
 ifeq ($(DEBUG), 1)
-	CFLAGS += -ggdb -DDEBUG -DMAX_VALUE
+	CFLAGS += -ggdb -DDEBUG 
 endif
 
 ifeq ($(OS), Windows_NT)

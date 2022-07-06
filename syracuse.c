@@ -45,24 +45,25 @@ bool Nbchild(ull n) {
     return (tmp1 != tmp2);
 }
 
-Node* create(ull parentvalue) {
-    Node *p = (Node*)malloc(sizeof(Node));
+Node* create(ull parentvalue, ull rank) {
+    Node *p = (Node*) malloc(sizeof(Node));
     p->value = parentvalue;
     p->end = false;
-    if (parentvalue > MAX_VALUE) {
+    p->rank = rank;
+    if (parentvalue > MAX_VALUE || rank >= MAX_RANK) {
         p->end = true;
         return p;
     }
     ull* res = prev(parentvalue);
     if (res[0] == res[1]) {
-        p->left = create(res[0]);
+        p->left = create(res[0], rank+1);
         p->right = NULL;
     } else {
         if (res[1] != 1) {
-            p->left = create(res[0]);
-            p->right = create(res[1]);
+            p->left = create(res[0], rank+1);
+            p->right = create(res[1], rank+1);
         } else {
-            p->left = create(res[0]);
+            p->left = create(res[0], rank+1);
             p->right = NULL;
         }
     }
@@ -80,18 +81,26 @@ void print_tree(Node *t) { //address of root node is passed in t
     }
 }
 
+void free_tree(Node *t) {
+    if (t != NULL) {
+        free_tree(t->left);
+        free_tree(t->right);
+        free(t);
+    }
+}
+
 void dot_tree(FILE* stream, Node *t) {
     if(t != NULL) {
         if (!t->end) {
-            fprintf(stream, "\t%llu [label=\"%llu\", color=%s];\n", t->value, t->value, Nbchild(t->value) ? "orange" : "lightblue");
+            fprintf(stream, "\t%llu [label=\"%llu\n%llu\", color=%s];\n", t->value, t->value, t->rank, Nbchild(t->value) ? "orange" : "lightblue");
             dot_tree(stream, t->left);
             dot_tree(stream, t->right);
             if (t->left != NULL) {
-                fprintf(stream, "\t%llu [label=\"%llu\", color=%s];\n", t->left->value, t->left->value, Nbchild(t->left->value) ? "orange" : "lightblue");
+                fprintf(stream, "\t%llu [label=\"%llu\n%llu\", color=%s];\n", t->left->value, t->left->value, t->left->rank, Nbchild(t->left->value) ? "orange" : "lightblue");
                 fprintf(stream, "\t%llu -> %llu;\n", t->value, t->left->value);
             }
             if (t->right != NULL) {
-                fprintf(stream, "\t%llu [label=\"%llu\", color=%s];\n", t->right->value, t->right->value, Nbchild(t->right->value) ? "orange" : "lightblue");
+                fprintf(stream, "\t%llu [label=\"%llu\n%llu\", color=%s];\n", t->right->value, t->right->value, t->right->rank, Nbchild(t->right->value) ? "orange" : "lightblue");
                 fprintf(stream, "\t%llu -> %llu;\n", t->value, t->right->value);
             }
         }

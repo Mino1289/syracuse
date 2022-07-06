@@ -7,8 +7,8 @@ int main(int argc, char *argv[]) {
 	} else {
 		ull n = atoll(argv[2]);
 		if (strcmp(argv[1], "tree") == 0) {
-			Node* tree = create(n);
-			FILE* f = fopen("tree.dot", "w");
+			Node* tree = create(n, 0);
+			FILE* f = fopen("treec.dot", "w");
 			fprintf(f, "digraph {\n\tnode [style=filled];\t"); 
 			dot_tree(f, tree);
 			if (n == 1) {
@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
 			}
 			fprintf(f, "}\n");
 			fclose(f);
-			// free_tree(tree);
+			free_tree(tree);
 			return EXIT_SUCCESS;
 		} else if (strcmp(argv[1], "graph") == 0) {
 			ull* suite = syracuse(n);

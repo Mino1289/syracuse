@@ -33,9 +33,8 @@
  */
 #define FOR(...) F_ORC(__VA_ARGS__)(__VA_ARGS__)
 
-#ifndef MAX_VALUE
-#define MAX_VALUE 128
-#endif
+#define MAX_VALUE 1<<12
+#define MAX_RANK 64
 
 
 typedef struct Node Node;
@@ -45,7 +44,6 @@ struct Node {
     ull rank;
     bool end;
 
-    Node *parent;
     Node *left;
     Node *right;
 };
@@ -58,11 +56,13 @@ ull* prev(ull n);
 
 bool Nbchild(ull n);
 
-Node* create(ull parentvalue);
+Node* create(ull parentvalue, ull rank);
 
 void print_tree(Node *t);
 
 void dot_tree(FILE* stream, Node *t);
+
+void free_tree(Node *t);
 
 void write_py_file(FILE* stream, ull* suite);
 
